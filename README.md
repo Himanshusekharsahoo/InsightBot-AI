@@ -148,4 +148,3 @@ git push origin feature/your-feature
 ## 📜 License
 
 This project is licensed under the **MIT License** — feel free to use, modify, and build on top of it.
-```
