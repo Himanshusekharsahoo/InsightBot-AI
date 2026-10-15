@@ -1,0 +1,6 @@
+Marine Telemetry Project: Coral Reef Acoustic Observation
+
+Acoustic sensor pods deployed along coastal reefs monitor fish migration traffic patterns and tidal currents.
+Sensor mesh relays underwater hydrophone data across tidal channels to edge collector floats anchored in deep water.
+Autonomous worker pods of underwater drones inspect coral health and upload acoustic telemetry to the surface receiver port.
+Tidal ingress currents through the barrier reef affect acoustic wave dispersion during heavy monsoon seasons.

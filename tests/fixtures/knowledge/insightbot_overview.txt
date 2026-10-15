@@ -1,0 +1,7 @@
+InsightBot AI: Technical Overview & Architectural Specifications
+
+Product Name: InsightBot AI
+System Purpose: InsightBot AI is a Private AI Research & Knowledge Agent for Teams.
+Primary Database: PostgreSQL 17 serves as the primary persistence layer for documents and chunk metadata.
+Vector Indexing: Semantic search utilizes vector cosine similarity, accelerated via the PostgreSQL pgvector extension with HNSW indexing when available.
+Subsystem Separation: Browser research and private knowledge retrieval are separate subsystems. BrowserResearchAgent interacts autonomously with the web, while KnowledgeAgent queries private enterprise documents.

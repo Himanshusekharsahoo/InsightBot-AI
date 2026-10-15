@@ -1,0 +1,32 @@
+# Fast Dockerfile using pre-built base images
+ARG REGISTRY=browseruse
+ARG BASE_TAG=latest
+FROM ${REGISTRY}/base-python-deps:${BASE_TAG}
+
+LABEL name="insightbot-ai" description="InsightBot AI - Private AI Research & Knowledge Agent for Teams"
+
+ENV INSIGHTBOT_USER="insightbot" BROWSERUSE_USER="insightbot" DEFAULT_PUID=911 DEFAULT_PGID=911 DATA_DIR=/data
+
+# Create user and directories
+RUN groupadd --system $INSIGHTBOT_USER && \
+    useradd --system --create-home --gid $INSIGHTBOT_USER --groups audio,video $INSIGHTBOT_USER && \
+    usermod -u "$DEFAULT_PUID" "$INSIGHTBOT_USER" && \
+    groupmod -g "$DEFAULT_PGID" "$INSIGHTBOT_USER" && \
+    mkdir -p /data /home/$INSIGHTBOT_USER/.config && \
+    ln -s $DATA_DIR /home/$INSIGHTBOT_USER/.config/insightbot && \
+    ln -s $DATA_DIR /home/$INSIGHTBOT_USER/.config/browseruse && \
+    mkdir -p "/home/$INSIGHTBOT_USER/.config/chromium/Crash Reports/pending/" && \
+    mkdir -p "$DATA_DIR/profiles/default" && \
+    chown -R "$INSIGHTBOT_USER:$INSIGHTBOT_USER" "/home/$INSIGHTBOT_USER" "$DATA_DIR"
+
+WORKDIR /app
+COPY . /app
+
+# Install insightbot-ai
+RUN --mount=type=cache,target=/root/.cache/uv,sharing=locked \
+    uv sync --all-extras --locked --no-dev --compile-bytecode
+
+USER "$INSIGHTBOT_USER"
+VOLUME "$DATA_DIR"
+EXPOSE 9242 9222
+ENTRYPOINT ["insightbot"]
